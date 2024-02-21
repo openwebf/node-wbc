@@ -581,22 +581,22 @@ static int JS_WriteFunctionTag(BCWriterState* s, JSValueConst obj) {
     bc_put_leb128(s, b->debug.line_num);
     bc_put_leb128(s, b->debug.pc2line_len);
     dbuf_put(&s->dbuf, b->debug.pc2line_buf, b->debug.pc2line_len);
-    /** 
+    /**
      * purely for compatibility with WebF/Kraken V1 quickjs compiler (kbc1 file format).
-     * determination of whether a column number is available by 
+     * determination of whether a column number is available by
      * adding a special sequence of characters.
      */
-    dbuf_putc(&s->dbuf, 255);
+    /*dbuf_putc(&s->dbuf, 255);
     dbuf_putc(&s->dbuf, 67); // 'C'
     dbuf_putc(&s->dbuf, 79); // 'O'
     dbuf_putc(&s->dbuf, 76); // 'L'
     bc_put_leb128(s, b->debug.column_num);
     bc_put_leb128(s, b->debug.pc2column_len);
-    dbuf_put(&s->dbuf, b->debug.pc2column_buf, b->debug.pc2column_len);
+    dbuf_put(&s->dbuf, b->debug.pc2column_buf, b->debug.pc2column_len);*/
 
-    /** 
+    /**
      * purely for compatibility with WebF/Kraken V1 quickjs compiler (kbc1 file format).
-     * determination of whether a Self PolyIC is available by 
+     * determination of whether a Self PolyIC is available by
      * adding a special sequence of characters.
      */
     dbuf_putc(&s->dbuf, 255);
