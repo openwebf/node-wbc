@@ -1,5 +1,5 @@
 #include <napi.h>
-#include "../deps/quickjs_2021_03_27/quickjs.h"
+#include "quickjs/quickjs.h"
 
 static void reportError(Napi::Env &env, JSContext *ctx, JSValue error) {
   const char *title = JS_ToCString(ctx, error);
