@@ -1,5 +1,5 @@
-const crc32 = require('crc32');
 var lz4 = require('lz4');
+const path = require('path');  
 
 //each part of header length
 const HEADER_LENGTH = 4;
@@ -31,6 +31,12 @@ const HEADER_FIELDS = [
 
 class Wbc {
     constructor(options = {}) {
+        const rootDir = path.resolve(__dirname, '..');  
+        this._bindings = require('node-gyp-build')(rootDir);
+    }
+
+    getAdler32(buffer) {
+        return this._bindings.getAdler32(buffer);
     }
 
     generateWbcBytecode(oriBody) {
@@ -88,10 +94,10 @@ class Wbc {
 
         //Only the CRC32 value of the first 14 bytes is calculated because the last CRC32 field is reserved
         pointer += HEADER_ADDITIONAL_DATA;
-        const crcValue = crc32(headerBuffer.slice(0, pointer));
+        const adler32Value = this.getAdler32(headerBuffer.slice(0, pointer));
 
         // Write the calculated CRC32 value to the last 4 bytes of the Buffer
-        headerBuffer.writeUInt32BE(parseInt(crcValue, 16), pointer);
+        headerBuffer.writeUInt32BE(adler32Value, pointer);
         return headerBuffer;
     }
 
@@ -119,10 +125,10 @@ class Wbc {
 
         //crc32
         pointer += bodyChunk.length;
-        const crcValue = crc32(bodyBuffer.slice(0, pointer));
+        const adler32Value = this.getAdler32(bodyBuffer.slice(0, pointer));
 
         // Write the calculated CRC32 value to the last 4 bytes of the Buffer
-        bodyBuffer.writeUInt32BE(parseInt(crcValue, 16), pointer);
+        bodyBuffer.writeUInt32BE(adler32Value, pointer);
         return bodyBuffer;
     }
 

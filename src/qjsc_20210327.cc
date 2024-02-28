@@ -110,6 +110,52 @@ Napi::Value evalByteCode(const Napi::CallbackInfo &info) {
   return result;
 }
 
+uint32_t calculateAdler32(uint8_t * array, size_t len, uint32_t adler = 1) {
+    const uint32_t base = 65521; // largest prime smaller than 65536
+    uint32_t s1 = adler & 0xffff;
+    uint32_t s2 = adler >> 16;
+    size_t i = 0;
+
+    while (len > 0) {
+        size_t n = 3800;
+        if (n > len) {
+            n = len;
+        }
+        len -= n;
+
+        while (n-- > 0) {
+            s1 = s1 + (array[i++] & 0xff);
+            s2 = s2 + s1;
+        }
+        s1 %= base;
+        s2 %= base;
+    }
+
+    return (s2 << 16) | s1;
+}
+
+Napi::Value getAdler32(const Napi::CallbackInfo &info) {
+  Napi::Env env = info.Env();
+
+  if (info.Length() == 0) {
+    Napi::TypeError::New(env, "1 arguments required").ThrowAsJavaScriptException();
+    return env.Null();
+  }
+
+  if (!info[0].IsBuffer()) {
+    Napi::TypeError::New(env, "1st arguments must be buffer").ThrowAsJavaScriptException();
+    return env.Null();
+  }
+
+  Napi::Buffer<uint8_t> buffer = info[0].As<Napi::Buffer<uint8_t>>();
+  uint8_t *bytes = buffer.Data();
+  size_t byteLength = buffer.ByteLength();
+  uint32_t res = calculateAdler32(bytes,byteLength);
+  
+  Napi::Number result = Napi::Number::New(env, res);
+  return result;
+}
+
 /**
 * This code is our entry-point. We receive two arguments here, the first is the
 * environment that represent an independent instance of the JavaScript runtime,
@@ -122,6 +168,7 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
   exports.Set(Napi::String::New(env, "dumpByteCode"), Napi::Function::New(env, DumpByteCode));
   exports.Set(Napi::String::New(env, "version"), Napi::String::New(env, "20210327"));
   exports.Set(Napi::String::New(env, "evalByteCode"), Napi::Function::New(env, evalByteCode));
+  exports.Set(Napi::String::New(env, "getAdler32"), Napi::Function::New(env, getAdler32));
   return exports;
 }
 
