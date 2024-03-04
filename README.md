@@ -13,7 +13,7 @@ npm install @openwebf/wbc --save
 ## Usage
 
 ```javascript
-const WBC = require('wbc');
+const WBC = require('@openwebf/wbc');
 const wbc = new WBC();
 
 // Dump bytecode from javascript source;

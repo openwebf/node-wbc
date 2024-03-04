@@ -8,18 +8,39 @@ on:
     types: [created]
   workflow_dispatch:
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  prebuild:
+    strategy:
+      matrix:
+        os: [windows-2022, ubuntu-latest, macos-12, macos-14]
+        node: [16]
+    runs-on: ${{ matrix.os }}
+    env:
+      VCINSTALLDIR: 'C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC'
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-python@v4
         with:
-          node-version: 16
-      - run: npm ci
-      - run: npm test
-
+          python-version: '3.x'
+      - run: pip install setuptools
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+      - if: ${{ matrix.os == 'windows' }}
+        shell: powershell
+        run: |
+          npm config set msvs_version 2022 -g
+      - run: npm install --ignore-scripts
+      - run: npm run build -- --msvs_version=2022
+      - if: ${{ matrix.os == 'windows' }}
+        shell: powershell
+        run: Rename-Item -Path "build\\Release\\qjsc_20210327.node" -NewName "build\\Release\\node.napi.node"
+      - run: mv build/Release/qjsc_20210327.node build/Release/node.napi.node
+      - uses: actions/upload-artifact@v3
+        with:
+          name: qjsc-prebuild-${{ matrix.os }}-node${{ matrix.node }}
+          path: build/Release/node.napi.node
   publish-npm:
-    needs: build
+    needs: prebuild
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -27,6 +48,25 @@ jobs:
         with:
           node-version: 16
           registry-url: https://registry.npmjs.org/
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+      - uses: actions/download-artifact@v2
+        with:
+          name: qjsc-prebuild-windows-2022-node16
+          path: prebuilds/win32-x64/
+      - uses: actions/download-artifact@v2
+        with:
+          name: qjsc-prebuild-ubuntu-latest-node16
+          path: prebuilds/linux-x64/
+      - uses: actions/download-artifact@v2
+        with:
+          name: qjsc-prebuild-macos-12-node16
+          path: prebuilds/darwin-x64/
+      - uses: actions/download-artifact@v2
+        with:
+          name: qjsc-prebuild-macos-14-node16
+          path: prebuilds/darwin-arm64/
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
