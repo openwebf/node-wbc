@@ -1,7 +1,0 @@
-name: Prebuild the binaries.
-
-on:
-  workflow_dispatch:
-
-jobs:
-

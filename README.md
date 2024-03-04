@@ -7,7 +7,7 @@ The WBC file is a specially designed binary file that contains pre-compiled Java
 ## Install
 
 ```
-npm install wbc --save
+npm install @openwebf/wbc --save
 ```
 
 ## Usage
