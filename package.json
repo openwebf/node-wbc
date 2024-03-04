@@ -1,5 +1,5 @@
 {
-  "name": "wbc",
+  "name": "@openwebf/wbc",
   "version": "0.4.0-beta.0",
   "description": "The WBC file generator",
   "main": "index.js",
