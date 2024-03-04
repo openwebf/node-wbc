@@ -14,6 +14,10 @@ jobs:
       VCINSTALLDIR: 'C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC'
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+      - run: pip install setuptools
       - uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
