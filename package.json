@@ -1,10 +1,10 @@
 {
   "name": "wbc",
   "version": "0.4.0-beta.0",
-  "description": "Node.js addon for the Quickjs compiler",
+  "description": "The WBC file generator",
   "main": "index.js",
   "bin": {
-    "qjsc": "./bin/qjsc.js"
+    "wbc": "./bin/wbc.js"
   },
   "scripts": {
     "install": "node install.js",
@@ -14,14 +14,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/openkraken/node-qjsc.git"
+    "url": "git+https://github.com/openwebf/node-wbc"
   },
-  "author": "The Kraken Team",
+  "author": "The OpenWebF Team",
   "license": "Apache License 2.0",
   "bugs": {
-    "url": "https://github.com/openkraken/node-qjsc/issues"
+    "url": "https://github.com/openwebf/node-wbc/issues"
   },
-  "homepage": "https://github.com/openkraken/node-qjsc#readme",
+  "homepage": "https://github.com/openwebf/node-wbc#readme",
   "dependencies": {
     "bindings": "^1.5.0",
     "commander": "^8.2.0",

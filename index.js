@@ -1,16 +1,15 @@
-const supportedVersions = ['20210327'];
+const supportedVersions = ['1'];
 
 class Qjsc {
   constructor(options = {}) {
-    let version = options.version || '20210327';
+    let version = options.version || '1';
     if (supportedVersions.indexOf(version) === -1) {
-      throw new Error('Unsupported QuickJS version: ' + version);
+      throw new Error('Unsupported WBC version: ' + version);
     }
-    // TODO: Multiple quickjs version switch are removed because of prebuilt library.
     this._bindings = require('node-gyp-build')(__dirname);
   }
   help() {
-    console.log('Supported QuckJS versions: ' + supportedVersions.join(', '));
+    console.log('Supported WBC versions: ' + supportedVersions.join(', '));
   }
 
   getSupportedVersions() {

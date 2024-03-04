@@ -1,29 +1,23 @@
-# node-qjsc
-> Node.js addon for the [QuickJS](https://github.com/bellard/quickjs) compiler.
+# WBC
 
-Current supported version:
-+ 20210327
+The [WBC](https://github.com/openwebf/rfc/blob/main/working/wbc1.en-US.md)(WebF bytecode file) file generator.
+
+The WBC file is a specially designed binary file that contains pre-compiled JavaScript bytecodes and other assets, which could speed up the loading of WebF's application.
 
 ## Install
 
 ```
-npm install qjsc --save
+npm install wbc --save
 ```
 
 ## Usage
 
 ```javascript
-const Qjsc = require('qjsc');
-const qjsc = new Qjsc();
+const WBC = require('wbc');
+const wbc = new WBC();
 
 // Dump bytecode from javascript source;
-qjsc.compile('function hello() { return 1 + 1};'); // <Buffer ...>
-
-// Use specified quickjs version
-qjsc = new Qjsc({version: '20210327'});
-
-// Get all supported versions.
-qjsc.getSupportedVersions();
+wbc.compile('function hello() { return 1 + 1};'); // <Buffer ...>
 ```
 
 ## Contribute
