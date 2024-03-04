@@ -31,6 +31,10 @@ jobs:
           npm config set msvs_version 2022 -g
       - run: npm install --ignore-scripts
       - run: npm run build -- --msvs_version=2022
+      - if: ${{ matrix.os == 'windows' }}
+        shell: powershell
+        run: Rename-Item -Path "build\\Release\\qjsc_20210327.node" -NewName "build\\Release\\node.napi.node"
+      - run: mv build/Release/qjsc_20210327.node build/Release/node.napi.node
       - uses: actions/upload-artifact@v3
         with:
           name: qjsc-prebuild-${{ matrix.os }}-node${{ matrix.node }}
@@ -49,19 +53,19 @@ jobs:
           python-version: '3.x'
       - uses: actions/download-artifact@v2
         with:
-          name: qjsc-prebuild-windows-2022-node14
+          name: qjsc-prebuild-windows-2022-node16
           path: prebuilds/win32-x64/
       - uses: actions/download-artifact@v2
         with:
-          name: qjsc-prebuild-ubuntu-latest-node14
+          name: qjsc-prebuild-ubuntu-latest-node16
           path: prebuilds/linux-x64/
       - uses: actions/download-artifact@v2
         with:
-          name: qjsc-prebuild-macos-12-node14
+          name: qjsc-prebuild-macos-12-node16
           path: prebuilds/darwin-x64/
       - uses: actions/download-artifact@v2
         with:
-          name: qjsc-prebuild-macos-14-node14
+          name: qjsc-prebuild-macos-14-node16
           path: prebuilds/darwin-arm64/
       - run: npm publish --tag beta
         env:
