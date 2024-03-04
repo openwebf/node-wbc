@@ -111,7 +111,7 @@
             "deps/quickjs/src/core/builtins/js-string.c",
             "deps/quickjs/src/core/builtins/js-symbol.c",
             "deps/quickjs/src/core/builtins/js-typed-array.c",
-            "deps/quickjs/src/libbf.c",
+#             "deps/quickjs/src/libbf.c",
 
             "compat/win32/pthreads/attr.c",
             "compat/win32/pthreads/barrier.c",
