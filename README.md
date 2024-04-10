@@ -10,14 +10,61 @@ The WBC file is a specially designed binary file that contains pre-compiled Java
 npm install @openwebf/wbc --save
 ```
 
-## Usage
+## Cli Usage
+
+**Install**
+```
+npm install @openwebf/wbc -g
+```
+
+**Convert JavaScript Into WBC file**
+
+```
+wbc -s /tmp/index.js -d /tmp
+```
+
+**Transform Inline Scripts in HTML**
+
+```
+wbc -s ./demo.html -d ./demo_wbc.html --convert-html
+```
+
+## Node Usage
+
+**Convert JavaScript Into WBC buffer**
 
 ```javascript
-const WBC = require('@openwebf/wbc');
-const wbc = new WBC();
+const { compileJavaScriptToWbc } = require('@openwebf/wbc');
 
-// Dump bytecode from javascript source;
-wbc.compile('function hello() { return 1 + 1};'); // <Buffer ...>
+compileJavaScriptToWbc('function hello() { return 1 + 1};'); // <Buffer ...> the WBC bytes
+```
+
+**Transform Inline JavaScript Codes into WBC**
+
+```javascript
+const { transformInlineScriptToWbc } = require('@openwebf/wbc');
+
+const transformedHtml = transformInlineScriptToWbc(`
+<!DOCTYPE html>
+<html lang="en">
+<body>
+    <script>
+        console.log('helloworld');
+    </script>
+</body>
+</html>
+`); 
+
+console.log(transformedHtml); /*
+<html lang="en">
+<body>
+    <script>
+    // The WBC binary contents
+    </script>
+
+</body></html>
+*/
+
 ```
 
 ## Contribute

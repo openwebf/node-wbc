@@ -31,7 +31,7 @@ const HEADER_FIELDS = [
 
 class Wbc {
     constructor(options = {}) {
-        const rootDir = path.resolve(__dirname, '..');  
+        const rootDir = path.resolve(__dirname, '.');  
         this._bindings = require('node-gyp-build')(rootDir);
     }
 
