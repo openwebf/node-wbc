@@ -34,9 +34,10 @@ const sourceFileName = source.split('/').slice(-1)[0].split('.')[0];
 const sourceCode = fs.readFileSync(source, { encoding: 'utf-8' });
 
 if (options.convertHtml) {
+  let distPath = path.join(dist, sourceFileName + '.bhtml');
   const output = transformInlineScriptToWbc(sourceCode);
-  fs.writeFileSync(dist, output);
-  console.log('Quickjs bytecode generated wbc1 at: \n' + dist);
+  fs.writeFileSync(distPath, output);
+  console.log('Quickjs bytecode generated at: \n' + distPath);
 } else {
   if (type == 'kbc1') {
     let distPath = path.join(dist, sourceFileName + '.kbc1');
