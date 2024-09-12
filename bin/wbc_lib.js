@@ -1,4 +1,3 @@
-var lz4 = require('lz4');
 const path = require('path');  
 
 //each part of header length
@@ -108,7 +107,10 @@ class Wbc {
     generateBody(oriBody) {
         let pointer = 0;
         //use lz4 to compress quickJs bytecode
-        var bodyChunk = lz4.encode(oriBody);
+        //以后要压缩时直接放开使用，wbc的结构暂且不做变更，防止后面会使用其他的压缩算法减少bytecode的大小
+        // var bodyChunk = lz4.encode(oriBody);
+        // let length = BODY_LENGTH + BODY_CHUNK_TYPE + bodyChunk.length + BODY_CRC32;
+        var bodyChunk = oriBody;
         let length = BODY_LENGTH + BODY_CHUNK_TYPE + bodyChunk.length + BODY_CRC32;
         const bodyBuffer = Buffer.alloc(length);
 
