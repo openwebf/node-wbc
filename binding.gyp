@@ -5,7 +5,6 @@
       "sources": [
         "src/qjsc_20210327.cc",
         "deps/quickjs_2021_03_27/libbf.h",
-        "deps/quickjs_2021_03_27/libbf.c",
         "deps/quickjs_2021_03_27/cutils.c",
         "deps/quickjs_2021_03_27/cutils.h",
         "deps/quickjs_2021_03_27/libregexp.c",
