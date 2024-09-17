@@ -1,33 +1,24 @@
-const supportedVersions = ['1'];
+const { Wbc } = require('./wbc');
+const Qjsc = require('./qjsc');
+const parseAndConvertHTML = require('./html_converter');
 
-class Qjsc {
-  constructor(options = {}) {
-    let version = options.version || '1';
-    if (supportedVersions.indexOf(version) === -1) {
-      throw new Error('Unsupported WBC version: ' + version);
-    }
-    this._bindings = require('node-gyp-build')(__dirname);
-  }
-  help() {
-    console.log('Supported WBC versions: ' + supportedVersions.join(', '));
-  }
-
-  getSupportedVersions() {
-    return supportedVersions;
-  }
-
-  compile(code, options = {}) {
-    let sourceURL = options.sourceURL || 'internal://';
-    return this._bindings.dumpByteCode(code, sourceURL);
-  }
-
-  get version() {
-    return this._bindings.version;
-  }
-
-  _evalByteCode(buffer) {
-    return this._bindings.evalByteCode(buffer);
-  }
+function compileJavaScriptToWbc(code, version = '1') {
+  const qjsc = new Qjsc({version: version});
+  const wbc = new Wbc();
+  const quickjsBuffer = qjsc.compile(code);
+  let wbcBytecode = wbc.generateWbcBytecode(quickjsBuffer);
+  return wbcBytecode;
 }
 
-module.exports = Qjsc;
+function legacyCompileJavaScriptToKBC(code) {
+  const qjsc = new Qjsc();
+  return qjsc.compile(code);
+}
+
+function transformInlineScriptToWbc(html, version = '1') {
+  return parseAndConvertHTML(html, version);
+}
+
+exports.compileJavaScriptToWbc = compileJavaScriptToWbc;
+exports.transformInlineScriptToWbc = transformInlineScriptToWbc;
+exports.legacyCompileJavaScriptToKBC = legacyCompileJavaScriptToKBC;
