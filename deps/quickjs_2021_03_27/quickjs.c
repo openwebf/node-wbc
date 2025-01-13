@@ -39892,7 +39892,7 @@ static JSValue js_number_isSafeInteger(JSContext *ctx, JSValueConst this_val,
     return JS_NewBool(ctx, is_safe_integer(d));
 }
 
-static const JSCFunctionListEntry js_number_funcs[] = {
+static JSCFunctionListEntry js_number_funcs[] = {
     /* global ParseInt and parseFloat should be defined already or delayed */
     JS_ALIAS_BASE_DEF("parseInt", "parseInt", 0 ),
     JS_ALIAS_BASE_DEF("parseFloat", "parseFloat", 0 ),
@@ -47926,7 +47926,7 @@ static JSValue js_global_unescape(JSContext *ctx, JSValueConst this_val,
 
 /* global object */
 
-static const JSCFunctionListEntry js_global_funcs[] = {
+static JSCFunctionListEntry js_global_funcs[] = {
     JS_CFUNC_DEF("parseInt", 2, js_parseInt ),
     JS_CFUNC_DEF("parseFloat", 1, js_parseFloat ),
     JS_CFUNC_DEF("isNaN", 1, js_global_isNaN ),
