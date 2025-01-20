@@ -55,15 +55,15 @@ jobs:
       #   with:
       #     name: qjsc-prebuild-windows-2022-node16
       #     path: prebuilds/win32-x64/
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v4
         with:
           name: qjsc-prebuild-ubuntu-latest-node16
           path: prebuilds/linux-x64/
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v4
         with:
           name: qjsc-prebuild-macos-12-node16
           path: prebuilds/darwin-x64/
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v4
         with:
           name: qjsc-prebuild-macos-14-node16
           path: prebuilds/darwin-arm64/
