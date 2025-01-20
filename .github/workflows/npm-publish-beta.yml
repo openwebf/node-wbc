@@ -11,7 +11,7 @@ jobs:
   prebuild:
     strategy:
       matrix:
-        os: [windows-latest, ubuntu-latest, macos-14]
+        os: [ubuntu-latest, macos-14]
         node: [16]
     runs-on: ${{ matrix.os }}
     env:
@@ -51,10 +51,10 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: '3.x'
-      - uses: actions/download-artifact@v2
-        with:
-          name: qjsc-prebuild-windows-2022-node16
-          path: prebuilds/win32-x64/
+      # - uses: actions/download-artifact@v2
+      #   with:
+      #     name: qjsc-prebuild-windows-2022-node16
+      #     path: prebuilds/win32-x64/
       - uses: actions/download-artifact@v2
         with:
           name: qjsc-prebuild-ubuntu-latest-node16
